@@ -19,11 +19,12 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     const touchData = JSON.parse(message);
     if (touchData.s === 'e') {
-      const deltaX = (touchData.x - startx) * scaleFactor;
-      const deltaY = (touchData.y - starty) * scaleFactor;
-      const currentMousePos = robot.getMousePos();
-
-      robot.moveMouse(currentMousePos.x + deltaX, currentMousePos.y + deltaY);
+      const deltaX = (touchData.x - startx) * 2;
+      const deltaY = (touchData.y - starty) * 2;
+      
+      robot.moveMouse(robot.getMousePos().x + deltaX, robot.getMousePos().y + deltaY);
+      startx = touchData.x;
+      starty = touchData.y;
     } else {
       startx = touchData.x;
       starty = touchData.y;
