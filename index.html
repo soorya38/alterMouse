@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WebSocket Client</title>
+    </head>
+    <body>
+        <div id="touch" style="width: 100%; height: 100vh; background-color: green;"></div>
+        <script>
+            const ws = new WebSocket('ws://192.168.215.223:8080');
+
+            let screen = document.getElementById('touch');
+
+            screen.addEventListener('touchmove', (event) => {
+                event.preventDefault();
+                const touchX = event.touches[0].clientX;
+                const touchY = event.touches[0].clientY;
+                const touchData = { x: touchX, y: touchY, s: 'e' };
+                ws.send(JSON.stringify(touchData));
+            });
+
+            screen.addEventListener('touchstart', (event) => {
+                const touchX = event.touches[0].clientX;
+                const touchY = event.touches[0].clientY;
+                const touchData = { x: touchX, y: touchY, s: 's' };
+                ws.send(JSON.stringify(touchData));
+            });
+        </script>
+    </body>
+</html>
