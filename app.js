@@ -17,17 +17,22 @@ let startx = 0, starty = 0;
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    const touchData = JSON.parse(message);
-    if (touchData.s === 'e') {
-      const deltaX = (touchData.x - startx) * 2;
-      const deltaY = (touchData.y - starty) * 2;
-      
-      robot.moveMouse(robot.getMousePos().x + deltaX, robot.getMousePos().y + deltaY);
-      startx = touchData.x;
-      starty = touchData.y;
+    if(message == 'clicked') {
+      robot.mouseClick('left', false);
     } else {
-      startx = touchData.x;
-      starty = touchData.y;
+      const touchData = JSON.parse(message);
+  
+      if (touchData.s === 'e') {
+        const deltaX = (touchData.x - startx) * 1;
+        const deltaY = (touchData.y - starty) * 1;
+        
+        robot.moveMouse(robot.getMousePos().x + deltaX, robot.getMousePos().y + deltaY);
+        startx = touchData.x;
+        starty = touchData.y;
+      } else {
+        startx = touchData.x;
+        starty = touchData.y;
+      }    
     }
   });
 });
